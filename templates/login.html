@@ -1,0 +1,4 @@
+{% extends "base.html" %}{% block body %}<div class="card narrow"><h2>Login</h2>
+<form method="post"><label>Email or mobile<input name="ident" required></label>
+<label>Password<input type="password" name="password" required></label><button>Login</button></form>
+<p>New here? <a href="{{ url_for('register') }}">Register</a></p></div>{% endblock %}

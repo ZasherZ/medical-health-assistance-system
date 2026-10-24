@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% block body %}
+<div class="card hero"><h1>Medical Health Assistance System</h1>
+<p>One place for students and faculty to get medical help: book doctors, get health guidance, receive reminders and request emergency help.</p>
+{% if not user %}<a class="btn" href="{{ url_for('register') }}">Register</a> <a class="btn alt" href="{{ url_for('login') }}">Login</a>{% else %}<a class="btn" href="{{ url_for('dashboard') }}">Go to dashboard</a>{% endif %}</div>
+<div class="grid"><div class="card"><h3>Emergency contacts</h3><p>National emergency: <b>{{ contacts.emergency_number }}</b></p><p>Ambulance: <b>{{ contacts.ambulance }}</b></p><p>Health centre: <b>{{ contacts.health_centre }}</b></p></div>
+<div class="card"><h3>Features</h3><p>Registration and login · Profile · Symptom-based guidance · Doctor appointments · Medicine and appointment reminders · Emergency requests · Medical staff dashboard · Admin management</p></div></div>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block body %}<div class="card"><h2>Medical / emergency request</h2>
+<form method="post"><label>Symptoms *<textarea name="symptoms" rows="2"></textarea></label>
+<label>Details<textarea name="details" rows="2"></textarea></label>
+<label>Current location *<input name="location" placeholder="e.g. Hostel A, Room 12"></label>
+<label>Contact number *<input name="contact" placeholder="10-digit mobile"></label>
+<label><input type="checkbox" name="emergency" style="width:auto"> This is an emergency</label><button class="danger">Submit</button></form></div>
+<div class="card"><h3>My requests</h3><table><tr><th>#</th><th>Symptoms</th><th>Status</th><th>Advice</th><th>Date</th></tr>
+{% for r in rows %}<tr class="{{ 'emerg' if r.emergency }}"><td>{{ r.id }}</td><td>{{ r.symptoms }}</td><td>{{ r.status }}</td><td>{{ r.advice }}</td><td>{{ r.created }}</td></tr>
+{% else %}<tr><td colspan="5" class="muted">None.</td></tr>{% endfor %}</table></div>{% endblock %}

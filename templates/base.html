@@ -1,0 +1,17 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Medical Health Assistance System</title><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head><body>
+<header><a class="brand" href="{{ url_for('index') }}">🏥 Health Assist</a><nav>
+{% if user %}<a href="{{ url_for('dashboard') }}">Dashboard{% if unread %} <span class="badge">{{ unread }}</span>{% endif %}</a>
+{% if user.role in ('student','faculty') %}<a href="{{ url_for('guidance') }}">Guidance</a><a href="{{ url_for('appointments') }}">Appointments</a><a href="{{ url_for('request_help') }}">Medical Request</a><a href="{{ url_for('records') }}">Records</a><a href="{{ url_for('reminders') }}">Reminders</a>{% endif %}
+<a href="{{ url_for('profile') }}">Profile</a><a href="{{ url_for('logout') }}">Logout ({{ user.name }})</a>
+{% else %}<a href="{{ url_for('login') }}">Login</a><a href="{{ url_for('register') }}">Register</a>{% endif %}</nav></header>
+<main>{% with m = get_flashed_messages(with_categories=true) %}{% for c, t in m %}<div class="flash {{ c }}">{{ t }}</div>{% endfor %}{% endwith %}
+{% block body %}{% endblock %}</main>
+<footer>Emergency: {{ contacts.emergency_number }} · Ambulance: {{ contacts.ambulance }} · Health Centre: {{ contacts.health_centre }}</footer>
+<div id="toasts"></div>
+{% if user %}<script>
+async function poll(){try{const r=await fetch("{{ url_for('api_due') }}");const d=await r.json();
+d.forEach(x=>{const e=document.createElement('div');e.className='toast';e.textContent='⏰ '+x.kind+' reminder: '+x.text;
+document.getElementById('toasts').appendChild(e);setTimeout(()=>e.remove(),20000);});}catch(e){}}
+poll();setInterval(poll,30000);</script>{% endif %}
+</body></html>

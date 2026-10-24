@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% block body %}<div class="card narrow"><h2>Register</h2>
+<form method="post"><label>Full name<input name="name" required></label>
+<label>Email<input type="email" name="email" required></label>
+<label>Mobile (10 digits)<input name="mobile" pattern="\d{10}" required></label>
+<label>Password (min 6 characters)<input type="password" name="password" minlength="6" required></label>
+<label>I am a<select name="role"><option value="student">Student</option><option value="faculty">Faculty member</option></select></label>
+<label>Department<input name="department"></label><button>Create account</button></form></div>{% endblock %}

@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% block body %}<div class="card narrow"><h2>My profile</h2><p class="muted">{{ u.email }} · {{ u.role|capitalize }}</p>
+<form method="post"><label>Name<input name="name" value="{{ u.name }}" required></label>
+<label>Mobile<input name="mobile" value="{{ u.mobile }}" required></label>
+<label>Department<input name="department" value="{{ u.department }}"></label>
+{% if u.role in ('student','faculty') %}<label>Blood group<input name="blood_group" value="{{ u.blood_group }}"></label>
+<label>Emergency contact<input name="emergency_contact" value="{{ u.emergency_contact }}"></label>
+<label>Health notes (allergies, conditions)<textarea name="notes" rows="3">{{ u.notes }}</textarea></label>{% endif %}
+<label>New password (optional)<input type="password" name="new_password"></label><button>Save</button></form></div>{% endblock %}

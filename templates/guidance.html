@@ -1,0 +1,5 @@
+{% extends "base.html" %}{% block body %}<div class="card"><h2>Health guidance</h2>
+<form method="post"><label>Describe your symptoms (e.g. fever, headache, cough)<textarea name="symptoms" rows="3" required>{{ text }}</textarea></label><button>Get guidance</button></form></div>
+{% if urgent %}<div class="flash error"><b>These symptoms may be serious.</b> Submit an <a href="{{ url_for('request_help') }}">emergency request</a> or call {{ contacts.emergency_number }} now.</div>{% endif %}
+{% if tips is not none %}<div class="card"><h3>Guidance</h3>{% for t in tips %}<p>• {{ t }}</p>{% else %}<p>No specific match found. Please book an appointment with a doctor.</p>{% endfor %}
+<p class="muted">This is general information, not a diagnosis. <a href="{{ url_for('appointments') }}">Book a doctor</a> if you are unsure.</p></div>{% endif %}{% endblock %}

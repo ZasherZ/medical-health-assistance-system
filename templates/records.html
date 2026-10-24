@@ -1,0 +1,4 @@
+{% extends "base.html" %}{% block body %}<div class="card"><h2>My medical records</h2><table><tr><th>Date</th><th>Doctor</th><th>Diagnosis</th><th>Prescription</th></tr>
+{% for r in rows %}<tr><td>{{ r.created }}</td><td>{{ r.doctor }}</td><td>{{ r.diagnosis }}</td><td>{{ r.prescription }}</td></tr>
+{% else %}<tr><td colspan="4" class="muted">No records yet.</td></tr>{% endfor %}</table>
+<p class="muted">Only you and the medical staff can see these records. Update health details in your <a href="{{ url_for('profile') }}">profile</a>.</p></div>{% endblock %}

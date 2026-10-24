@@ -1,0 +1,31 @@
+{% extends "base.html" %}{% block body %}
+<section class="banner"><div><h2>Hello, {{ user.name.split()[0] }} 👋</h2><p>{{ user.role|capitalize }}{% if user.department %} · {{ user.department }}{% endif %} — take care of your health today.</p></div>
+<a class="btn sos" href="{{ url_for('request_help') }}">🚨 Emergency help</a></section>
+{% for a in ann %}<div class="flash info">📢 {{ a.message }}</div>{% endfor %}
+<div class="stats">
+<div class="tile"><span class="ico blue">📅</span><div><b>{{ appts|length }}</b><small>Upcoming appointments</small></div></div>
+<div class="tile"><span class="ico orange">🩺</span><div><b>{{ reqs|selectattr('status','equalto','Pending')|list|length }}</b><small>Requests awaiting review</small></div></div>
+<div class="tile"><span class="ico green">🔔</span><div><b>{{ unread }}</b><small>New notifications</small></div></div>
+</div>
+<div class="actions">
+<a href="{{ url_for('appointments') }}"><span>📅</span>Book appointment</a>
+<a href="{{ url_for('guidance') }}"><span>💡</span>Health guidance</a>
+<a href="{{ url_for('reminders') }}"><span>⏰</span>Reminders</a>
+<a href="{{ url_for('records') }}"><span>📋</span>My records</a>
+</div>
+<div class="grid2">
+<div class="card"><h3>📅 Upcoming appointments</h3>
+{% for a in appts %}<div class="row"><div class="date"><b>{{ a.date[8:] }}</b><small>{{ a.date[5:7] }}/{{ a.date[2:4] }}</small></div><div><b>{{ a.doctor }}</b><br><span class="muted">{{ a.time }}{% if a.reason %} · {{ a.reason }}{% endif %}</span></div></div>
+{% else %}<p class="muted empty">No upcoming appointments.<br><a href="{{ url_for('appointments') }}">Book one →</a></p>{% endfor %}</div>
+<div class="card"><h3>🩺 Recent requests</h3>
+{% for r in reqs %}<div class="row"><div class="grow"><b>#{{ r.id }} {{ r.symptoms }}</b>{% if r.emergency %} <span class="badge">Emergency</span>{% endif %}
+{% if r.advice %}<br><span class="muted">Advice: {{ r.advice }}</span>{% endif %}</div>
+<span class="pill {{ 'done' if r.status in ('Advice Given','Resolved','Immediate Assistance Provided') else 'wait' }}">{{ r.status }}</span></div>
+{% else %}<p class="muted empty">No requests yet.</p>{% endfor %}</div>
+<div class="card"><h3>🔔 Notifications</h3>
+{% for n in notes %}<div class="row"><span class="dot"></span><div>{{ n.message }}<br><small class="muted">{{ n.created }}</small></div></div>
+{% else %}<p class="muted empty">You're all caught up.</p>{% endfor %}</div>
+<div class="card"><h3>💬 Feedback</h3><p class="muted">Help us improve the service.</p>
+<form method="post" action="{{ url_for('feedback') }}"><textarea name="message" rows="4" placeholder="Write your feedback..." required></textarea><br><br><button>Send feedback</button></form></div>
+</div>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block body %}<meta http-equiv="refresh" content="30"><h2>Medical staff dashboard</h2>
+<div class="card"><h3>Medical requests</h3><table><tr><th>#</th><th>Patient</th><th>Symptoms</th><th>Location</th><th>Status</th><th></th></tr>
+{% for r in reqs %}<tr class="{{ 'emerg' if r.emergency and r.status not in ('Immediate Assistance Provided','Advice Given','Resolved') }}"><td>{{ r.id }}</td><td>{{ r.pname }}</td>
+<td>{% if r.emergency %}<span class="badge">EMERGENCY</span> {% endif %}{{ r.symptoms }}</td><td>{{ r.location }}</td><td>{{ r.status }}</td>
+<td><a class="btn small" href="{{ url_for('staff_request', rid=r.id) }}">Review</a></td></tr>{% else %}<tr><td colspan="6" class="muted">No requests.</td></tr>{% endfor %}</table></div>
+<div class="grid"><div class="card"><h3>My upcoming appointments</h3>{% for a in appts %}<p>{{ a.date }} {{ a.time }} · {{ a.pname }}
+<form class="inline" method="post" action="{{ url_for('appt_action', aid=a.id, action='complete') }}"><button class="alt small">Complete</button></form>
+<form class="inline" method="post" action="{{ url_for('appt_action', aid=a.id, action='cancel') }}"><button class="danger small">Cancel</button></form></p>{% else %}<p class="muted">None.</p>{% endfor %}</div>
+<div class="card"><h3>Notifications</h3>{% for n in notes %}<p>{{ n.message }}<br><span class="muted">{{ n.created }}</span></p>{% else %}<p class="muted">None.</p>{% endfor %}</div></div>{% endblock %}

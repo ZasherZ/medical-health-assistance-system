@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% block body %}<div class="card"><h2>Reminders</h2>
+<form method="post"><label>Type<select name="kind"><option>Medicine</option><option>Appointment</option></select></label>
+<label>Reminder<input name="text" required></label><label>When<input type="datetime-local" name="remind_at" required></label><button>Save reminder</button></form></div>
+<div class="card"><table><tr><th>When</th><th>Type</th><th>Reminder</th><th>Status</th><th></th></tr>
+{% for r in rows %}<tr><td>{{ r.remind_at }}</td><td>{{ r.kind }}</td><td>{{ r.text }}</td><td>{{ 'Sent' if r.sent else 'Scheduled' }}</td>
+<td><form class="inline" method="post" action="{{ url_for('reminder_delete', rid=r.id) }}"><button class="danger small">Delete</button></form></td></tr>
+{% else %}<tr><td colspan="5" class="muted">None.</td></tr>{% endfor %}</table>
+<p class="muted">Reminders appear as a pop-up and a notification at the scheduled time while the site is open.</p></div>{% endblock %}

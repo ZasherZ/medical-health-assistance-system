@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% block body %}<div class="grid"><div class="card"><h2>Request #{{ r.id }}{% if r.emergency %} <span class="badge">EMERGENCY</span>{% endif %}</h2>
+<p><b>Patient:</b> {{ r.pname }} · {{ r.email }} · {{ r.mobile }}</p><p><b>Blood group:</b> {{ r.blood_group or '-' }} · <b>Emergency contact:</b> {{ r.econtact or '-' }}</p><p><b>Health notes:</b> {{ r.pnotes or '-' }}</p>
+<p><b>Symptoms:</b> {{ r.symptoms }}</p><p><b>Details:</b> {{ r.details or '-' }}</p><p><b>Location:</b> {{ r.location }} · <b>Contact:</b> {{ r.contact }}</p><p class="muted">{{ r.created }}</p>
+<h3>Previous records</h3>{% for h in history %}<p>{{ h.created }} · {{ h.doctor }}<br>Dx: {{ h.diagnosis }}<br>Rx: {{ h.prescription }}</p>{% else %}<p class="muted">None.</p>{% endfor %}</div>
+<div class="card"><h3>Respond</h3><form method="post"><label>Status<select name="status">{% for s in statuses %}<option {{ 'selected' if s == r.status }}>{{ s }}</option>{% endfor %}</select></label>
+<label>Medical advice<textarea name="advice" rows="2">{{ r.advice }}</textarea></label><label>Diagnosis<input name="diagnosis"></label><label>Prescription<textarea name="prescription" rows="2"></textarea></label>
+<label>Book follow-up (optional)<input type="date" name="appt_date" min="{{ today }}"></label><label><select name="appt_time">{% for s in slots %}<option>{{ s }}</option>{% endfor %}</select></label>
+<button>Save</button> <a class="btn alt" href="{{ url_for('staff') }}">Back</a></form></div></div>{% endblock %}
